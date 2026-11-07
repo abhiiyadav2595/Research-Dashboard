@@ -16,6 +16,10 @@ class Config:
         "postgresql://neondb_owner:npg_c9g2yGomjHUL@ep-crimson-feather-a1o2w51k-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require",
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        "pool_pre_ping": True,
+        "pool_recycle": 300,
+    }
 
     JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY", "dev-jwt-secret")
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(hours=8)
