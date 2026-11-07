@@ -54,15 +54,7 @@ def create_app(config_class=Config):
 
     @app.errorhandler(404)
     def not_found(e):
-        from flask import request
-        return jsonify({
-            "error": "Not found",
-            "requested_path": request.path,
-            "environ_path_info": request.environ.get("PATH_INFO"),
-            "raw_uri": request.environ.get("RAW_URI"),
-            "request_uri": request.environ.get("REQUEST_URI"),
-            "x_matched_path": request.environ.get("HTTP_X_MATCHED_PATH"),
-        }), 404
+        return jsonify({"error": "Not found"}), 404
 
     @app.errorhandler(500)
     def server_error(e):
