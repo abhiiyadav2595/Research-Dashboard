@@ -13,7 +13,7 @@ class Config:
     SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key-phd-dashboard-prod-2026")
     SQLALCHEMY_DATABASE_URI = os.environ.get(
         "DATABASE_URL",
-        "postgresql://neondb_owner:npg_c9g2yGomjHUL@ep-crimson-feather-a1o2w51k-pooler.ap-southeast-1.aws.neon.tech/neondb?sslmode=require",
+        "postgresql://neondb_owner:npg_64SZDLhgtOkW@ep-blue-voice-a5un95u7-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require",
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ENGINE_OPTIONS = {
