@@ -29,13 +29,25 @@ def api_root():
 @app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
 def serve_frontend(path):
+    from flask import Response
+    import mimetypes
+
     if path.startswith("api/"):
         return jsonify({"error": "Not found"}), 404
-    file_path = os.path.join(dist_dir, path)
-    if path and os.path.isfile(file_path):
-        return send_from_directory(dist_dir, path)
-    if os.path.isfile(os.path.join(dist_dir, "index.html")):
-        return send_from_directory(dist_dir, "index.html")
+
+    target_file = os.path.join(dist_dir, path)
+    if path and os.path.isfile(target_file):
+        mime_type, _ = mimetypes.guess_type(target_file)
+        with open(target_file, "rb") as f:
+            content = f.read()
+        return Response(content, mimetype=mime_type or "application/octet-stream")
+
+    index_file = os.path.join(dist_dir, "index.html")
+    if os.path.isfile(index_file):
+        with open(index_file, "r", encoding="utf-8") as f:
+            content = f.read()
+        return Response(content, mimetype="text/html")
+
     return jsonify({
         "status": "ok",
         "service": "PhD Progress Dashboard Backend",
