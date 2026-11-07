@@ -2,8 +2,11 @@
   "name": "research-dashboard",
   "version": "1.0.0",
   "private": true,
+  "workspaces": [
+    "frontend"
+  ],
   "scripts": {
-    "build": "npm --prefix frontend install && npm --prefix frontend run build",
-    "dev": "npm --prefix frontend run dev"
+    "build": "npm --workspace=frontend run build",
+    "dev": "npm --workspace=frontend run dev"
   }
 }
