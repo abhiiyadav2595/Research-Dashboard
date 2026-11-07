@@ -57,6 +57,14 @@ class VercelPathMiddleware:
                     subpath = "/" + subpath
                 environ["PATH_INFO"] = "/api" + subpath
                 environ["QUERY_STRING"] = urlencode(params, doseq=True)
+            elif "__frontend_path" in params:
+                fpath = params.pop("__frontend_path")[0]
+                if fpath and not fpath.startswith("/"):
+                    fpath = "/" + fpath
+                environ["PATH_INFO"] = fpath or "/"
+                environ["QUERY_STRING"] = urlencode(params, doseq=True)
+        elif environ.get("PATH_INFO") in ("/api/index.py", "/api/index", "/api/index/"):
+            environ["PATH_INFO"] = "/"
 
         return self.wsgi_app(environ, start_response)
 
