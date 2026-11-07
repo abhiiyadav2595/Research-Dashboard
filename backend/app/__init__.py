@@ -56,9 +56,14 @@ def create_app(config_class=Config):
     def not_found(e):
         return jsonify({"error": "Not found"}), 404
 
-    @app.errorhandler(500)
+    @app.errorhandler(Exception)
     def server_error(e):
-        return jsonify({"error": "Internal server error"}), 500
+        import traceback
+        return jsonify({
+            "error": str(e),
+            "type": type(e).__name__,
+            "traceback": traceback.format_exc(),
+        }), 500
 
     @app.get("/api/health")
     def health():
