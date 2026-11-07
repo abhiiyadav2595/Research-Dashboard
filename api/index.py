@@ -25,6 +25,24 @@ def api_root():
         "database": "PostgreSQL (Neon Cloud Connected)",
     })
 
+@app.route("/api/setup-db", methods=["GET", "POST"])
+def setup_db():
+    try:
+        from app.extensions import db
+        import seed
+        seed.main()
+        return jsonify({
+            "status": "success",
+            "message": "Database tables and seed data initialized successfully."
+        })
+    except Exception as e:
+        import traceback
+        return jsonify({
+            "status": "error",
+            "error": str(e),
+            "traceback": traceback.format_exc()
+        }), 500
+
 # If Vercel routes non-API requests to Flask, serve the compiled Vite frontend
 @app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
